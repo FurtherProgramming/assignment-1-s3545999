@@ -24,7 +24,7 @@ public class BookStore
     {
         // Makes all predetermined book obnjects in an array
         Book books[] = fillBookstore();
-
+        String shoppingCart = "";
         Scanner scanner = new Scanner(System.in);
         int menuChoice = -1;
 
@@ -32,58 +32,72 @@ public class BookStore
         while(true) 
         {   
             runMenu();
-
-            if (scanner.hasNextInt()) // Check to ensure that the next input is an integer
-            {
-                menuChoice = scanner.nextInt();
-                scanner.nextLine(); // To take away the next line so it waits for input next time
+            menuChoice = getIntegerInput(scanner);
             
+            // Add to shopping cart
+            if (menuChoice == 1)
+            {
+                // get input
+                System.out.print("\nEnter title to search for: ");
+                String bookTitle = scanner.nextLine();
 
-                // Add to shopping cart
-                if (menuChoice == 1)
+                int match = checkBook(books, bookTitle);
+                if (match != -1)
                 {
-                    // get input
-                    System.out.print("\nEnter title to search for: ");
-                    String bookTitle = scanner.nextLine();
+                    boolean purchasing = confirmBook(books, match, scanner);
+                    if (purchasing == true)
+                    {
+                        
+                        int typeToAdd = typeOfBook(books, match, scanner);
 
-                    int match = checkBook(books, bookTitle);
-
-                    addToCart(books, match, scanner);
-                    
-
-                }
-                else if (menuChoice == 2)
-                {
-                    // View shopping Cart
-                }
-                else if (menuChoice == 3)
-                {
-                    // Remove book from cart
-                }
-                else if (menuChoice == 4)
-                {
-                    // Checkout
-                }
-                else if (menuChoice == 5)
-                {
-                    // List Books
-                }
-                else if (menuChoice == 0)
-                {
-                    scanner.close();
-                    System.exit(0);
+                        if (typeToAdd == 1)
+                        {
+                            boolean ebookPurchased = addEbookToCart(books, match);
+                            if (ebookPurchased == true)
+                            {
+                                shoppingCart = "1. "+ books[match].getTitle() + "\n";
+                            }
+                        }
+                        if (typeToAdd == 2)
+                        {
+                            boolean paperbackPurchased = addPaperbackToCart(books, match);
+                            if (paperbackPurchased == true)
+                            {
+                                shoppingCart = "1. "+ books[match].getTitle() + "\n";
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    System.out.print("\nSorry that is not a valid option!\n\n");
-                    menuChoice = -1;
+                    System.out.println("\nThere are no titles which start with that!\n");
                 }
+            }
+            else if (menuChoice == 2)
+            {
+                // View shopping Cart
+            }
+            else if (menuChoice == 3)
+            {
+                // Remove book from cart
+            }
+            else if (menuChoice == 4)
+            {
+                // Checkout
+            }
+            else if (menuChoice == 5)
+            {
+                // List Books
+            }
+            else if (menuChoice == 0)
+            {
+                scanner.close();
+                System.exit(0);
             }
             else
             {
-                System.out.print("\nPlease input an number between 0 and 5\n\n");
+                System.out.print("\nSorry that is not a valid option!\n\n");
                 menuChoice = -1;
-                scanner.nextLine(); // Use up the invalid non integer input
             }
         }
         
@@ -131,79 +145,53 @@ public class BookStore
         return matchedBook;
     }
 
-
-    // This method needs to be broken down into other methods
-    public void addToCart(Book[] books, int matchedBook, Scanner scanner)
+    private boolean confirmBook(Book[] books, int matchedBook, Scanner scanner)
     {
-        if(matchedBook != -1)
+        boolean buying = false;
+        String title = books[matchedBook].getTitle();
+        int bookChoice = -1;
+
+        while (bookChoice != 0 && bookChoice !=1) // Wait till a choice is made from list
         {
-            String title = books[matchedBook].getTitle();
-            String bookToAdd = "";
-            int typeToAdd;
-            String bookType;
-
-            cartMatch(books, matchedBook); // Run menu
-            if (scanner.hasNextInt())
-            {
-                int bookChoice = scanner.nextInt(); // Choice from menu
-
+            cartMatch(books, matchedBook);
+            bookChoice = getIntegerInput(scanner);
             if (bookChoice == 1)
             {
-                buyBookMenu(title);
-                typeToAdd = scanner.nextInt();
-                scanner.nextLine();
-
-                // Only runs if the choice was not an ebook, physical copy or exit
-                while (typeToAdd !=0 && typeToAdd !=1 && typeToAdd !=2)
-                {
-                    System.out.print("Invalid option choose again");
-                    buyBookMenu(title);
-                    typeToAdd = scanner.nextInt();
-                    scanner.nextLine(); // To take away the next line so it waits for input next time
-                }
-                
-                if (typeToAdd == 1)
-                {
-        
-                    if (books[matchedBook].getEbookAvailability() == true)
-                    {
-                        System.out.printf("%s%s%n%n", title, " has been added to your cart as an eBook");
-                    }
-                    else
-                    {
-                        System.out.printf("%s%s", title, " is not available as an eBook");
-                    }
-                }
-                else if (typeToAdd == 2)
-                {
-                    if (books[matchedBook].getNumOfCopies() != 0)
-                    {
-                        System.out.printf("%s%s%n%n", title, " has been added to your cart as a paperback");
-                    }
-                    else
-                    {
-                        System.out.printf("%s%s%s%n%n", "There are no paperbacks of ", title, " left");
-                    }
-                }
-                else
-                {
-                    System.out.print("Purchased cancelled!");
-                }
+                buying = true;
+            }
+            else if (bookChoice == 0)
+            {
+                System.out.print("Purchase Cancelled!\n\n");
+                buying = false;
             }
             else
             {
-                System.out.print("Purchase Cancelled!\n\n");
+                System.out.print("\nInvalid option please choose again\n\n");
             }
-            }
-            
+        }
+        return buying;
+    }
+    
 
-        }
-        else
+    public int typeOfBook(Book[] books, int matchedBook, Scanner scanner)
+    {
+        
+        String title = books[matchedBook].getTitle();
+        int typeToAdd;
+
+        buyBookMenu(title);
+        typeToAdd = getIntegerInput(scanner);
+        while (typeToAdd != 1 && typeToAdd !=2 && typeToAdd !=3)
         {
-            System.out.println("\nThere are no titles which start with that!\n");
+            System.out.print("Invalid option please choose again\n\n");
+            buyBookMenu(title);
+            typeToAdd = getIntegerInput(scanner);
         }
+        return typeToAdd;
     }
 
+    
+    // Prints out the match to the inputted book
     private void cartMatch(Book[] books, int matchedBook)
     {
         System.out.print("\nThe following title is a match: \n");
@@ -213,11 +201,83 @@ public class BookStore
         System.out.print("What is your choice: ");
     }
 
+
+    // Prints out the type of book to buy menu 
     private void buyBookMenu(String title)
     {
         System.out.printf("%s '%s'%n","How would you like to buy", title);
         System.out.print("1. eBook\n");
         System.out.print("2. Paperback\n");
         System.out.print("0. Cancel Purchase\n");
+        System.out.print("Your choice: ");
+    }
+
+    // Checks if there is a eBook is available
+    // Prints if there was one available or not
+    // Returns a boolean whether it was added to cart or not
+    private boolean addEbookToCart(Book[] books, int matchedBook)
+    {
+        boolean availability = books[matchedBook].getEbookAvailability();
+        String title = books[matchedBook].getTitle();
+
+        if (availability == true)
+        {
+            System.out.printf("%n%s%s%n%n", title, " has been added to your cart as an eBook");
+        }
+        else
+        {
+            System.out.printf("%n%s%s", title, " is not available as an eBook");
+        }
+        return availability;
+    }
+
+
+    // Checks if there is a paperback is available
+    // Prints if there was one available or not
+    // Returns a boolean whether it was added to cart or not
+    private boolean addPaperbackToCart(Book[] books, int matchedBook)
+    {
+        boolean availability;
+        String title = books[matchedBook].getTitle(); 
+        if (books[matchedBook].getNumOfCopies() != 0)
+        {
+            availability = true;
+            System.out.printf("%n%s%s%n%n", title, " has been added to your cart as a paperback");
+        }
+        else
+        {
+            availability = false;
+            System.out.printf("%n%s%s%s%n%n", "There are no paperbacks of '", title, "' left");
+            System.out.printf("'%s'%s", title, " was not added to your cart\n\n");
+        }
+        return availability;
+    }
+
+    // Hand in scanner and get integer input
+    // Ensures non integer can be input instead of int
+    // Avoids scanner eating the next input
+    // Returns the integer
+    public int getIntegerInput(Scanner scanner)
+    {
+        int input = -1;
+        boolean inputted = false;
+
+        while (inputted == false)
+        {
+            if (scanner.hasNextInt()) // Ensure next input is an integer
+            {
+                input = scanner.nextInt();
+                scanner.nextLine();
+                inputted = true;
+            }
+            else
+            {
+                System.out.print("\nThat is not a valid integer!\n\n");
+                System.out.print("Please enter a number: ");
+                scanner.nextLine(); // Use up the invalid non integer input
+            }
+        }
+        
+        return input;
     }
 }
