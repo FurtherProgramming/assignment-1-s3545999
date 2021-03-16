@@ -5,6 +5,7 @@ public class Book {
     private int numberOfCopies;
     private boolean ebookAvailability;
 
+    // Book Constructor
     public Book(String title, String author, int numberOfCopies, boolean ebookAvailability) {
         this.title = title;
         this.author = author;

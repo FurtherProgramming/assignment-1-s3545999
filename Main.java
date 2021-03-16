@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Main
 {
+    // Makes the menu string and prints it out
     public void runMenu() 
     {
-
         String menu = "";
 
-        menu += "Welcome to Daintree!\n";
+        menu += "\nWelcome to Daintree!\n";
         menu += "Choose an option:\n";
         menu += "1. Add a book to shopping cart\n";
         menu += "2. View shopping cart\n";
@@ -22,6 +22,7 @@ public class Main
         System.out.print(menu);
     }
 
+    // 
     public static int checkBook(String[] bookArray, String bookToCheck) 
     {   
         bookToCheck = bookToCheck.toLowerCase();

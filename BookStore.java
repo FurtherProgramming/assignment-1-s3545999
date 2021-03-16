@@ -22,7 +22,9 @@ public class BookStore
     
     public void run()
     {
+        // Makes all predetermined book obnjects in an array
         Book books[] = fillBookstore();
+
         Scanner scanner = new Scanner(System.in);
 
         // Loop to continue offering the menu to choose another option
@@ -32,15 +34,18 @@ public class BookStore
             int menuChoice = scanner.nextInt();
             scanner.nextLine(); // To take away the next line so it waits for input
 
+            // Add to shopping cart
             if (menuChoice == 1)
             {
+                // get input
                 System.out.print("\nEnter title to search for: ");
-
                 String bookTitle = scanner.nextLine();
 
                 int match = checkBook(books, bookTitle);
 
-                addToCart(books, match);
+                addToCart(books, match, scanner);
+                
+
             }
             else if (menuChoice == 2)
             {
@@ -114,14 +119,29 @@ public class BookStore
         return matchedBook;
     }
 
-    public void addToCart(Book[] books, int matchedBook)
+    public void addToCart(Book[] books, int matchedBook, Scanner scanner)
     {
         if(matchedBook != -1)
         {
+            int booknum = 1;
             System.out.print("\nThe following title is a match: \n");
-            System.out.printf("%n%-35s%-20s%-15s%-15s%n", "Title", "Author", "Availabilty", "eBook Availability");
-            System.out.printf("%-35s%-20s%-15d%-15b%n", books[matchedBook].getTitle(), books[matchedBook].getAuthor(), books[matchedBook].getNumOfCopies(), books[matchedBook].getEbookAvailability());
+            System.out.printf("%n%-10s%-35s%-20s%-15s%-15s%n", "Choice","Title", "Author", "Availabilty", "eBook Availability");
+            System.out.printf("%-10d%-35s%-20s%-15d%-15b%n", booknum, books[matchedBook].getTitle(), books[matchedBook].getAuthor(), books[matchedBook].getNumOfCopies(), books[matchedBook].getEbookAvailability());
+            System.out.printf("%-10s%-35s%n%n", "0.", "Cancel");
+            System.out.print("What is your choice: ");
+            int bookToAdd = scanner.nextInt();
+            if (bookToAdd == 1)
+            {
+                System.out.printf("%s %s%n","How would you like to buy", books[matchedBook].getTitle());
+                System.out.print("1. eBook\n");
+                System.out.print("2. Paperback\n");
+                System.out.print("0. Cancel Purchase\n\n");
+            }
+
         }
-        
+        else
+        {
+            System.out.println("There are no titles which start with that!");
+        }
     }
 }
