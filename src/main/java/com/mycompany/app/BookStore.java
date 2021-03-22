@@ -39,18 +39,18 @@ public class BookStore
             // Add to shopping cart
             if (menuChoice == 1)
             {
-                shoppingCart = addToCart(scanner, books, shoppingCart);
+                addToCart(scanner, books);
 
             }
             else if (menuChoice == 2)
             {
                 // View shopping Cart
-                displayCart(shoppingCart);
+                displayCart(books);
             }
             else if (menuChoice == 3)
             {
                 // Remove book from cart
-                shoppingCart = emptyCart(shoppingCart, scanner);
+                emptyCart(books, scanner);
             }
             else if (menuChoice == 4)
             {
@@ -66,7 +66,7 @@ public class BookStore
             }
             else if (menuChoice == 0)
             {
-                System.out.print("\nGoodbye!\n")
+                System.out.print("\nGoodbye!\n");
                 scanner.close();
                 System.exit(0);
             }
@@ -83,13 +83,15 @@ public class BookStore
         Creates the predetermined array of books which fill the store
         @Returns the array of book objects
     **/
+
     public Book[] fillBookstore()
     {
         
-        Book[] books = new Book[NUMBEROFBOOKS];
+        Book[] books = new Book[NUMBEROFBOOKS + 1]; // plus one as last spot is for the cart
+
         String[] titles = {"Absolute Java","JAVA: How to Program", "Computing Concepts with JAVA 8 Essentials", "Java Software Solutions", "Java Program Design"};
 
-        String[] authors = {"Savitch", "Deitel and Deitel", "Horstman", "Lewis and Loftus", "Cohoon and Davidson"};
+        String[] authors = {"Savitch", "Deitel and Deitel", "Horstman", "Lewis and Loftus", "Cohoon and Davidson",""};
 
         int[] numberOfItems ={5, 0, 5, 5, 1};
         boolean[] ebookAvailable = {true, true, false, false, true};
@@ -102,11 +104,10 @@ public class BookStore
         return books;
     }
 
-    private String[] addToCart (Scanner scanner, Book[] books, String[] shoppingCart)
+    private void addToCart (Scanner scanner, Book[] books)
     {
 
         int bookIndex;
-
         bookIndex = search(scanner, books);
         if (bookIndex != -1)
         {
@@ -121,9 +122,7 @@ public class BookStore
                     boolean ebookPurchased = addEbookToCart(books, bookIndex);
                     if (ebookPurchased == true)
                     {
-                        shoppingCart[0] = books[bookIndex].getTitle();
-                        shoppingCart[1] = "eBook";
-                        shoppingCart[2] = "8";
+                        books[NUMBEROFBOOKS] =  new Book(books[bookIndex].getTitle(), books[bookIndex].getAuthor(), 0, true);
                     }
                 }
                 if (typeToAdd == 2)
@@ -131,9 +130,7 @@ public class BookStore
                     boolean paperbackPurchased = addPaperbackToCart(books, bookIndex);
                     if (paperbackPurchased == true)
                     {
-                        shoppingCart[0] = books[bookIndex].getTitle();
-                        shoppingCart[1] = "Paperback";
-                        shoppingCart[2] = "50";
+                        books[NUMBEROFBOOKS] =  new Book(books[bookIndex].getTitle(), books[bookIndex].getAuthor(), 1, false);
                     }
                 }
             }
@@ -144,9 +141,6 @@ public class BookStore
         {
             System.out.println("\nThere are no titles which start with that!\n");
         }
-        
-
-        return shoppingCart;
     }
     
     private int search(Scanner scanner, Book[] books)
@@ -158,7 +152,7 @@ public class BookStore
         String bookTitle = scanner.nextLine();
 
         int match = checkBook(books, bookTitle);
-
+        bookTitle = bookTitle.toLowerCase();
         return match;
 
     }
@@ -177,7 +171,8 @@ public class BookStore
                 matchedBook = i;
             }
         }
-    
+        
+
         return matchedBook;
     }
 
@@ -316,12 +311,20 @@ public class BookStore
         return input;
     }
 
-    private void displayCart(String[] shoppingCart)
+    private void displayCart(Book[] books)
     {
-        if(shoppingCart[0] != null && shoppingCart[1] != null && shoppingCart[2] != null)
+        //if(checkEmptyCart(shoppingCart) == false)
+        if (books[NUMBEROFBOOKS] != null)
         {
             System.out.print("\nYour shopping cart contains:\n");
-            System.out.print("1. " + shoppingCart[0] + " as a " + shoppingCart[1] +  "\n\n");
+            if (books[NUMBEROFBOOKS].getEbookAvailability() == true)
+            {
+                System.out.print("1. " + books[NUMBEROFBOOKS].getTitle() + " as an eBook\n");
+            }
+            else
+            {
+                System.out.print("1. " + books[NUMBEROFBOOKS].getTitle() + " as a paperback\n");
+            }
         }
         else
         {
@@ -329,12 +332,12 @@ public class BookStore
         }
     }
 
-    private String[] emptyCart(String[] shoppingCart, Scanner scanner)
+    private void emptyCart(Book[] books, Scanner scanner)
     {
         int choice = -1;
-        if(shoppingCart[0] != null && shoppingCart[1] != null && shoppingCart[2] != null)
+        if(books[NUMBEROFBOOKS] != null)
         {
-            displayCart(shoppingCart);
+            displayCart(books);
             System.out.print("0. Cancel\n");
             
             System.out.print("Please input your choice: ");
@@ -342,7 +345,7 @@ public class BookStore
             while (choice != 1 && choice != 0)
             {
                 System.out.print("\nPlease input a valid choice!\n");
-                displayCart(shoppingCart);
+                displayCart(books);
                 System.out.print("0. Cancel\n");
                 System.out.print("Please input your choice: ");
                 choice = getIntegerInput(scanner);
@@ -351,9 +354,7 @@ public class BookStore
             if (choice == 1)
             {
                 System.out.print("The item was removed from your cart\n\n");
-                shoppingCart[0] = null;
-                shoppingCart[1] = null;
-                shoppingCart[2] = null;
+                books[NUMBEROFBOOKS] = null;
             }
             else
             {
@@ -364,17 +365,23 @@ public class BookStore
         {
             System.out.print("\nYour shopping cart is empty!\n\n");
         }
-        return shoppingCart;
     }
 
     private String[] checkout(String[] shoppingCart)
     {
-        System.out.print("You have purchased " + shoppingCart[0] + " as a " + shoppingCart[1] + " for $" + shoppingCart[2] + "\n\n");
-        for(int i=0; i <shoppingCart.length; i++)
+        if (checkEmptyCart(shoppingCart) == false)
         {
-            shoppingCart[i] = null;
+            System.out.print("You have purchased " + shoppingCart[0] + " as a " + shoppingCart[1] + " for $" + shoppingCart[2] + "\n\n");
+            for(int i=0; i <shoppingCart.length; i++)
+            {
+                shoppingCart[i] = null;
+            }
         }
-
+        else
+        {
+            System.out.print("Your shopping cart is empty\n\n");
+        }
+        
         return shoppingCart;
     }
 
@@ -387,5 +394,20 @@ public class BookStore
             System.out.printf("%-10d%-50s%-20s%-15d%-15b%n", i, books[i].getTitle(), books[i].getAuthor(), books[i].getNumOfCopies(), books[i].getEbookAvailability());
         }
         System.out.print("\n\n");
+    }
+
+    private boolean checkEmptyCart(String[] shoppingCart)
+    {
+        boolean cart;
+        if(shoppingCart[0] != null && shoppingCart[1] != null && shoppingCart[2] != null)
+        {
+            cart = false;
+        }
+        else
+        {
+            cart = true;
+        }
+
+        return cart;
     }
 }
