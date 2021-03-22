@@ -32,4 +32,12 @@ public class Book {
     {
         return this.ebookAvailability;
     }
+    public void decreaseNumBooks()
+    {
+        numberOfCopies --;
+    }
+    public void increaseNumBooks()
+    {
+        numberOfCopies ++;
+    }
 }
