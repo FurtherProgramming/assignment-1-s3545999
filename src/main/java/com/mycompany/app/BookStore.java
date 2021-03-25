@@ -1,44 +1,41 @@
+package com.mycompany.app;
+
 import java.util.Scanner;
 
-public class BookStore 
+public class BookStore
 {
     final int NUMBEROFBOOKS = 5;
     final int EBOOKCOST = 8;
     final int PAPERBACKCOST =50;
+    Book[] BookStore;
 
-    public static void runMenu() 
+    public BookStore()
     {
-        String menu = "";
-
-        menu += "Welcome to Daintree!\n";
-        menu += "Choose an option:\n";
-        menu += "1. Add a book to shopping cart\n";
-        menu += "2. View shopping cart\n";
-        menu += "3. Remove a book from shopping cart\n";
-        menu += "4. Checkout\n";
-        menu += "5. List all books\n";
-        menu += "0. Quit\n";
-        menu += "Please make a selection: ";
-
-        System.out.print(menu);
+        bookList = new Book[NUMBEROFBOOKS + 1] // Last spot for the cart
+        books[0] = new Book("Absolute Java", "Savitch", 5, true);
+        books[1] = new Book("JAVA: How to Program", "Deitel and Deitel", 0, true);
+        books[2] = new Book("Computing Concepts with JAVA 8 Essentials", "Horstman", 5, false);
+        books[3] = new Book("Java Software Solutions", "Lewis and Loftus", 5, false);
+        books[4] = new Book("Java Program Design", "Cohoon and Davidson", 1, true);
     }
-    
+
+
     public void run()
     {
         // Makes all predetermined book obnjects in an array
-        Book books[] = fillBookstore();
-        String[] shoppingCart = new String[3];
-        Scanner scanner = new Scanner(System.in);
-        int menuChoice = -1;
-        int bookIndex = -1;
+        
+        Menu menu = new Menu();
 
         // Loop to continue offering the menu to choose another option until exit with option 0
         while(true) 
         {   
-            runMenu();
-            menuChoice = getIntegerInput(scanner);
+            System.out.print(menu.getMenu());
+
+            menuChoice = menu.getChoice(scanner);
             
+            menu.choice(menuChoice)
             // Add to shopping cart
+            
             if (menuChoice == 1)
             {
                 addToCart(scanner, books);
@@ -91,17 +88,7 @@ public class BookStore
         
         Book[] books = new Book[NUMBEROFBOOKS + 1]; // plus one as last spot is for the cart
 
-        String[] titles = {"Absolute Java","JAVA: How to Program", "Computing Concepts with JAVA 8 Essentials", "Java Software Solutions", "Java Program Design"};
-
-        String[] authors = {"Savitch", "Deitel and Deitel", "Horstman", "Lewis and Loftus", "Cohoon and Davidson",""};
-
-        int[] numberOfItems ={5, 0, 5, 5, 1};
-        boolean[] ebookAvailable = {true, true, false, false, true};
         
-        for(int i=0; i < NUMBEROFBOOKS; i++)
-        {
-            books[i] = new Book(titles[i], authors[i],numberOfItems[i], ebookAvailable[i]);
-        }
 
         return books;
     }

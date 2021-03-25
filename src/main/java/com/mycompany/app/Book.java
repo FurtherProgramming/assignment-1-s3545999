@@ -1,3 +1,5 @@
+package com.mycompany.app;
+
 public class Book {
     
     private String title;
@@ -15,29 +17,26 @@ public class Book {
 
     public String getTitle()
     {
-        return this.title;
+        return title;
     }
 
     public String getAuthor()
     {
-        return this.author;
+        return author;
     }
 
     public int getNumOfCopies()
     {
-        return this.numberOfCopies;
+        return numberOfCopies;
     }
 
     public boolean getEbookAvailability()
     {
-        return this.ebookAvailability;
+        return ebookAvailability;
     }
+    
     public void decreaseNumBooks()
     {
         numberOfCopies --;
-    }
-    public void increaseNumBooks()
-    {
-        numberOfCopies ++;
     }
 }
