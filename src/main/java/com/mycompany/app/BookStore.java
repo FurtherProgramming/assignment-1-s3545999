@@ -20,7 +20,7 @@ public class BookStore
         bookList[4] = new Book("Java Program Design", "Cohoon and Davidson", 1, true);
     }
 
-
+    // Method run at start of project
     public void run()
     {
 
