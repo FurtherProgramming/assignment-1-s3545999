@@ -1,6 +1,7 @@
 package com.mycompany.app;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class BookStore
 {
@@ -9,17 +10,17 @@ public class BookStore
     private final int PAPERBACKCOST =50;
     private Book[] bookList = null;
 
+
     // Constructs a bookstore of predetermined books
     public BookStore()
     {
-        bookList = new Book[NUMBEROFBOOKS + 1]; // Last spot for the cart
+        bookList = new Book[NUMBEROFBOOKS];
         bookList[0] = new Book("Absolute Java", "Savitch", 5, true);
         bookList[1] = new Book("JAVA: How to Program", "Deitel and Deitel", 0, true);
         bookList[2] = new Book("Computing Concepts with JAVA 8 Essentials", "Horstman", 5, false);
         bookList[3] = new Book("Java Software Solutions", "Lewis and Loftus", 5, false);
         bookList[4] = new Book("Java Program Design", "Cohoon and Davidson", 1, true);
     }
-
     // Method run at start of project
     public void run()
     {
@@ -28,6 +29,7 @@ public class BookStore
         Menu menu = new Menu();
         BookStore bookStore = new BookStore();
         Scanner scanner = new Scanner(System.in);
+        ShoppingCart cart = new ShoppingCart();
         
         int menuChoice = -1;
         int bookChoice = -1;
@@ -46,13 +48,13 @@ public class BookStore
                 if (bookStore.confirmCorrectBook(bookChoice, scanner) == 1)
                 {
                     int bookType = bookStore.typeOfBook(bookChoice, scanner);
-                    bookStore.addToCart(bookType, bookChoice, scanner);
+                    bookStore.addToCart(bookType, bookChoice, scanner, cart);
                 }
             }
             else if (menuChoice == 2)
             {
                 // View shopping Cart
-                bookStore.displayCart();
+                cart.displayCart();
             }
             else if (menuChoice == 3)
             {
@@ -129,15 +131,14 @@ public class BookStore
     }
 
     // Once the book is known an
-    public void addToCart(int bookType, int bookIndex, Scanner scanner)
+    public void addToCart(int bookType, int bookIndex, Scanner scanner, ShoppingCart cart)
     {
         if (bookType == 1)
         {
             boolean ebookPurchased = addEbookToCart(bookIndex);
             if (ebookPurchased == true)
             {
-                bookList[NUMBEROFBOOKS] =  new Book(bookList[bookIndex].getTitle(), bookList[bookIndex].getAuthor(), 0, true);
-
+                cart.addToCart(bookList[bookIndex].getTitle(), bookType);
             }
         }
         else if (bookType == 2)
@@ -145,7 +146,7 @@ public class BookStore
             boolean paperbackPurchased = addPaperbackToCart(bookIndex);
             if (paperbackPurchased == true)
             {
-                bookList[NUMBEROFBOOKS] =  new Book(bookList[bookIndex].getTitle(), bookList[bookIndex].getAuthor(), 1, false);
+                cart.addToCart(bookList[bookIndex].getTitle(), bookType);
             }
         }
         else if (bookType == 0)
