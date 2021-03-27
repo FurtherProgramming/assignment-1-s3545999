@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class BookStoreManager
 {
     private final int NUMBEROFBOOKS = 5;
-    private final int PAPERBACKCOST = 50;
+    
     private Book[] bookList = null;
 
     // constructs the bookstore of Predetermined Books 
@@ -36,6 +36,7 @@ public class BookStoreManager
         {
             bookList[i].printBook(i + 1);
         }
+        System.out.print("\n");
     }
 
      // Returns an int of the index of the first book in the bookstore which matches the input

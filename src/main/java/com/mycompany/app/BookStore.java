@@ -16,7 +16,6 @@ public class BookStore
         Selections selection = new Selections(bookStoreManager.getLength());
 
         int menuChoice = -1;
-        int bookMatches = -1;
         Book bookChoice = null;
         int bookChosen;
         int bookType = -1;
@@ -38,24 +37,27 @@ public class BookStore
                 match = selection.printSelection(); // Prints books in the selection
                 if (match == true) // If there is a book in the selection
                 {
+                    System.out.print("Your Choice:");
                     bookChosen = getIntegerInput(scanner);
         
                     while (bookChosen < 0 && bookChosen > (selection.getLength() +1))
                     {
-                        System.out.print("That is an invalid choice\n");
+                        System.out.print("\nThat is an invalid choice\n");
                         System.out.print("Choose Again:\n");
                         bookChosen = getIntegerInput(scanner);
                     }
                     if (bookChosen == 0)
                     {
-                        System.out.print("Selection cancelled!\n");
+                        System.out.print("\n\nSelection cancelled!\n");
                     }
                     else
                     {
-                        bookChoice = selection.getBook(bookChosen); // Choice of which book returns book object
+                        bookChoice = selection.getBook(bookChosen -1); // Choice of which book returns book object
 
                         String title = bookChoice.getTitle();
-                        System.out.print("Selected: " + title + "\n");
+                        System.out.print("Selected:");
+                        bookChoice.printBookHeader();
+                        bookChoice.printBook(1);
 
                         buyBookMenu();
                         bookType = getIntegerInput(scanner);
@@ -139,7 +141,7 @@ public class BookStore
     // Prints out the type of book to buy menu
     private static void buyBookMenu()
     {
-        System.out.printf("%n%s '%s'%n","How would you like to buy:");
+        System.out.printf("%n%s%n","How would you like to buy:");
         System.out.print("1. eBook\n");
         System.out.print("2. Paperback\n");
         System.out.print("0. Cancel Purchase\n");

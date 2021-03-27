@@ -27,8 +27,9 @@ public class Selections
             System.out.print("The following title(s) are a match:\n");
             for(int i = 0; i < length; i++)
             {
-                System.out.printf("%d%s%n", i + 1, selections[i].getTitle());
+                System.out.printf("%d%s %s%n", i + 1, ".",selections[i].getTitle());
             }
+            System.out.print("0. Cancel\n\n");
         }
         else
         {
@@ -58,7 +59,9 @@ public class Selections
         {
             if (bookStoreManager.checkBookMatch(bookToMatch, i) == true)
             {
-                addToSelections(bookStoreManager.getBook(i), i);
+                
+                addToSelections(bookStoreManager.getBook(i), counter);
+                counter ++;
             }
         }
     }
