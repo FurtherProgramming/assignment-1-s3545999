@@ -70,24 +70,7 @@ public class BookStore
             }
         }
     }
-    // Returns an int of the index of the first book in the bookstore which matches the input
-    public int searchForBook(String bookToCheck)
-    {
-        bookToCheck = bookToCheck.toLowerCase();
-        int matchedBook = -1;
-
-        // Loops through all books and stop when match found
-        for (int i = 0; i < 5 && matchedBook == -1; i++)
-        {
-            String arrayTitle = bookList[i].getTitle().toLowerCase();
-
-            if (arrayTitle.startsWith(bookToCheck))
-            {
-                matchedBook = i;
-            }
-        }
-        return matchedBook;
-    }
+   
     
     // Offers the book for purchase
     // Returns a 1 if wanted to purchase 
