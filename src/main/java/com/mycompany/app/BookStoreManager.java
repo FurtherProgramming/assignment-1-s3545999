@@ -1,9 +1,11 @@
+package com.mycompany.app;
+import java.util.Scanner;
+
 public class BookStoreManager
 {
     private final int NUMBEROFBOOKS = 5;
-    private final int EBOOKCOST = 8;
     private final int PAPERBACKCOST = 50;
-    private book[] bookList = null;
+    private Book[] bookList = null;
 
     // constructs the bookstore of Predetermined Books 
     public BookStoreManager()
@@ -16,47 +18,41 @@ public class BookStoreManager
         bookList[4] = new Book("Java Program Design", "Cohoon and Davidson", 1, true);
     }
 
+    public int getLength()
+    {
+        return NUMBEROFBOOKS;
+    }
+    
+    public Book getBook(int index)
+    {   
+        return bookList[index];
+    }
+
+    public void listBooks()
+    {
+        System.out.print("\nThe available books are:\n");
+        bookList[0].printBookHeader();
+        for (int i = 0; i < NUMBEROFBOOKS; i++)
+        {
+            bookList[i].printBook(i + 1);
+        }
+    }
+
      // Returns an int of the index of the first book in the bookstore which matches the input
-    public int searchForBook(String bookToCheck)
+    public boolean checkBookMatch(String bookToCheck, int index)
     {
         bookToCheck = bookToCheck.toLowerCase();
-        int matchedBook = -1;
+        boolean match = false;
 
-        // Loops through all books and stop when match found
-        for (int i = 0; i < 5 && matchedBook == -1; i++)
+        String arrayTitle = bookList[index].getTitle().toLowerCase();
+
+        if (arrayTitle.startsWith(bookToCheck))
         {
-            String arrayTitle = bookList[i].getTitle().toLowerCase();
-
-            if (arrayTitle.startsWith(bookToCheck))
-            {
-                matchedBook = i;
-            }
+            match = true;
         }
-        return matchedBook;
+    
+        return match;
     }
 
-    // Offers the book for purchase
-    // Returns a 1 if wanted to purchase 
-    // Returns a 0 if not wanted
-    public int confirmCorrectBook(int bookIndex, Scanner scanner)
-    {
-        int bookChoice = -1;
-        while (bookChoice != 0 && bookChoice !=1) // Wait till a choice is made from list
-        {
-            if (bookIndex != -1)
-            {
-                System.out.print("\nThe following title is a match: \n");
-                bookList[bookIndex].printBookHeader();
-                bookList[bookIndex].printBook(1); // 1 indicates first in list of books
-                System.out.printf("%-10d%-35s%n", 0, "Cancel");
-                System.out.print("What is your choice: ");
-                bookChoice = getIntegerInput(scanner);
-            }
-            else
-            {
-                System.out.println("\nThere are no titles which start with that!\n");
-            }
-        }
-        return bookChoice;
-    }
+    
 }
