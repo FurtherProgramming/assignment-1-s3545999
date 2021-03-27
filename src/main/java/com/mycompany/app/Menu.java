@@ -48,5 +48,28 @@ public class Menu {
         }
         
         return input;
-    }   
+    }
+
+    public int getIntegerInput(Scanner scanner)
+    {
+        int input = -1;
+        boolean inputted = false;
+
+        while (inputted == false)
+        {
+            input = 
+            if (scanner.hasNextInt()) // Ensure next input is an integer
+            {
+                input = scanner.nextInt();
+                scanner.nextLine();
+                inputted = true;
+            }
+            else
+            {
+                System.out.print("\nThat is not a valid integer!\n\n");
+                System.out.print("Please enter a number: ");
+            }
+        }
+        return input;
+    }
 }

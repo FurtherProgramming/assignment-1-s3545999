@@ -35,16 +35,17 @@ public class BookStore
 
                 selection.getChoices(bookToCheck, bookStoreManager); // Finds all matching books and puts into selection
                 match = selection.printSelection(); // Prints books in the selection
+                
                 if (match == true) // If there is a book in the selection
                 {
                     System.out.print("Your Choice:");
-                    bookChosen = getIntegerInput(scanner);
+                    bookChosen = menu.getIntegerInput(scanner);
         
-                    while (bookChosen < 0 && bookChosen > (selection.getLength() +1))
+                    while (bookChosen < 0 || bookChosen > (selection.getLength()))
                     {
                         System.out.print("\nThat is an invalid choice\n");
                         System.out.print("Choose Again:\n");
-                        bookChosen = getIntegerInput(scanner);
+                        bookChosen = menu.getIntegerInput(scanner);
                     }
                     if (bookChosen == 0)
                     {
@@ -60,12 +61,12 @@ public class BookStore
                         bookChoice.printBook(1);
 
                         buyBookMenu();
-                        bookType = getIntegerInput(scanner);
+                        bookType = menu.getIntegerInput(scanner);
                         while (bookType != 1 && bookType !=2 && bookType !=0)
                         {
                             System.out.print("\nInvalid option please choose again\n\n");
                             buyBookMenu();
-                            bookType = getIntegerInput(scanner);
+                            bookType = menu.getIntegerInput(scanner);
                         }
                         cart.addToCart(bookChoice, bookType);
                     }
@@ -87,14 +88,14 @@ public class BookStore
                     System.out.print("0. Cancel\n");
                     
                     System.out.print("Please input your choice: ");
-                    choice = getIntegerInput(scanner);
+                    choice = menu.getIntegerInput(scanner);
                     while (choice < 0 && choice > cart.getLength() + 1)
                     {
                         System.out.print("\nPlease input a valid choice!\n");
                         cart.displayCart();
                         System.out.print("0. Cancel\n");
                         System.out.print("Please input your choice: ");
-                        choice = getIntegerInput(scanner);
+                        choice = menu.getIntegerInput(scanner);
                     }
 
                     if (choice == 0)
@@ -146,32 +147,5 @@ public class BookStore
         System.out.print("2. Paperback\n");
         System.out.print("0. Cancel Purchase\n");
         System.out.print("Your choice: ");
-    }
-
-
-    // Hand in scanner and get integer input
-    // Ensures non integer can be input instead of int
-    // Avoids scanner eating the next input
-    // Returns the integer
-    public static int getIntegerInput(Scanner scanner)
-    {
-        int input = -1;
-        boolean inputted = false;
-
-        while (inputted == false)
-        {
-            if (scanner.hasNextInt()) // Ensure next input is an integer
-            {
-                input = scanner.nextInt();
-                scanner.nextLine();
-                inputted = true;
-            }
-            else
-            {
-                System.out.print("\nThat is not a valid integer!\n\n");
-                System.out.print("Please enter a number: ");
-            }
-        }
-        return input;
-    }
+    }   
 }

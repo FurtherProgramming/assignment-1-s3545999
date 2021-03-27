@@ -8,7 +8,7 @@ public class ShoppingCart
     private final int EBOOKCOST = 8;
     private final int PAPERBACKCOST = 50;
     private int length = 0;
-
+    private int cost = 0;
     public ShoppingCart()
     {
         shoppingcart = new Book[MAXCARTSIZE];
@@ -21,6 +21,7 @@ public class ShoppingCart
         {
             Book bookForCart = new Book(bookToAdd.getTitle(), bookToAdd.getAuthor(), 0, true);
             shoppingcart[length] = bookForCart;
+            cost += EBOOKCOST;
 
             System.out.printf("'%s' %s%n", bookToAdd.getTitle(), "has been added to your cart as an paperback!");
         }
@@ -28,6 +29,7 @@ public class ShoppingCart
         {
             Book bookForCart = new Book(bookToAdd.getTitle(), bookToAdd.getAuthor(), 1, false);
             shoppingcart[length] = bookForCart;
+            cost += PAPERBACKCOST;
 
             System.out.printf("'%s' %s%n", bookToAdd.getTitle(), "has been added to your cart as an eBook!");
         }
@@ -80,6 +82,10 @@ public class ShoppingCart
                 }
                 shoppingcart[i] = null;
             }
+
+            System.out.print("The total cost is: " + cost + "\n");
+
+            cost = 0;
             length = 0;
         }
         else
@@ -90,6 +96,14 @@ public class ShoppingCart
 
     public void removeItem(int index)
     {
+        if (shoppingcart[index].getEbookAvailability() == true)
+        {
+            cost -= EBOOKCOST;
+        }
+        else
+        {
+            cost -= PAPERBACKCOST;
+        }
         shoppingcart[index] = null;
         for (int i = index; index < length; index++)
         {
