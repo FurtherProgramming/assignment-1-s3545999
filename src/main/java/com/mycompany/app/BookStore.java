@@ -5,29 +5,13 @@ import java.util.ArrayList;
 
 public class BookStore
 {
-    private final int NUMBEROFBOOKS = 5;
-    private final int EBOOKCOST = 8;
-    private final int PAPERBACKCOST =50;
-    private Book[] bookList = null;
-
-
-    // Constructs a bookstore of predetermined books
-    public BookStore()
-    {
-        bookList = new Book[NUMBEROFBOOKS];
-        bookList[0] = new Book("Absolute Java", "Savitch", 5, true);
-        bookList[1] = new Book("JAVA: How to Program", "Deitel and Deitel", 0, true);
-        bookList[2] = new Book("Computing Concepts with JAVA 8 Essentials", "Horstman", 5, false);
-        bookList[3] = new Book("Java Software Solutions", "Lewis and Loftus", 5, false);
-        bookList[4] = new Book("Java Program Design", "Cohoon and Davidson", 1, true);
-    }
     // Method run at start of project
-    public void run()
+    public void main(String[] args)
     {
 
         // Adding comments testing if git is working
         Menu menu = new Menu();
-        BookStore bookStore = new BookStore();
+        BookStoreManagement bookStoreManager = new BookStoreManager();
         Scanner scanner = new Scanner(System.in);
         ShoppingCart cart = new ShoppingCart();
         
