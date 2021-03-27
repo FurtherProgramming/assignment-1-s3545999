@@ -72,30 +72,7 @@ public class BookStore
     }
    
     
-    // Offers the book for purchase
-    // Returns a 1 if wanted to purchase 
-    // Returns a 0 if not wanted
-    public int confirmCorrectBook(int bookIndex, Scanner scanner)
-    {
-        int bookChoice = -1;
-        while (bookChoice != 0 && bookChoice !=1) // Wait till a choice is made from list
-        {
-            if (bookIndex != -1)
-            {
-                System.out.print("\nThe following title is a match: \n");
-                bookList[bookIndex].printBookHeader();
-                bookList[bookIndex].printBook(1); // 1 indicates first in list of books
-                System.out.printf("%-10d%-35s%n", 0, "Cancel");
-                System.out.print("What is your choice: ");
-                bookChoice = getIntegerInput(scanner);
-            }
-            else
-            {
-                System.out.println("\nThere are no titles which start with that!\n");
-            }
-        }
-        return bookChoice;
-    }
+    
 
     // Once the book is known an
     public void addToCart(int bookType, int bookIndex, Scanner scanner, ShoppingCart cart)
