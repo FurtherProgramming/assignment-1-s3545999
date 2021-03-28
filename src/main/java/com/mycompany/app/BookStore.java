@@ -39,7 +39,7 @@ public class BookStore
                 
                 if (match == true) // If there is a book in the selection
                 {
-                    System.out.print("Your Choice:");
+                    System.out.print("Your Choice: ");
                     bookChosen = menu.getIntegerInput(scanner);
         
                     while (bookChosen < 0 || bookChosen > (selection.getLength()))
@@ -69,13 +69,24 @@ public class BookStore
                             bookType = menu.getIntegerInput(scanner);
                         }
 
-                        if ((bookType == 1 && bookChoice.getEbookAvailability() ==true) || (bookType == 2 && bookChoice.getNumOfCopies() > 0))
+                        if (bookType == 1 && bookChoice.getEbookAvailability() ==true)
                         {
+                            cart.addToCart(bookChoice, bookType);
+                        }
+                        else if (bookType == 2 && bookChoice.getNumOfCopies() > 0)
+                        {
+                            for (int i = 0; i < bookStoreManager.getLength(); i++)
+                            {
+                                if (bookStoreManager.checkExactMatch(bookChoice.getTitle(), bookChoice.getAuthor() ,i) == true)
+                                {
+                                    bookStoreManager.decreaseNumBooks(i);
+                                }
+                            }
                             cart.addToCart(bookChoice, bookType);
                         }
                         else
                         {
-                            System.out.print("\nBook is not available it this type!\n\n");
+                            System.out.print("\nBook is not available in this type!\n\n");
                         }
 
                     }
@@ -98,7 +109,7 @@ public class BookStore
                     
                     System.out.print("Please input your choice: ");
                     choice = menu.getIntegerInput(scanner);
-                    while (choice < 0 && choice > cart.getLength())
+                    while (choice < 0 || choice > cart.getLength())
                     {
                         System.out.print("\nPlease input a valid choice!\n");
                         cart.displayCart();
@@ -113,12 +124,12 @@ public class BookStore
                     }
                     else
                     {
-                        bookToRemove = cart.getBook(choice).getTitle();
+                        bookToRemove = cart.getBook(choice - 1).getTitle();
                         for (int i = 0; i < bookStoreManager.getLength(); i++)
                         {
-                            if (bookStoreManager.checkBookMatch(bookToRemove, i) == true)
+                            if (bookStoreManager.checkExactMatch(bookChoice.getTitle(), bookChoice.getAuthor() ,i) == true)
                             {
-                                bookStoreManager.getBook(i).increaseNumBooks();
+                                bookStoreManager.increaseNumBooks(i);
                             }
                         }
                         cart.removeItem(choice - 1);

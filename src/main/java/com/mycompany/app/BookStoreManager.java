@@ -22,11 +22,21 @@ public class BookStoreManager
         return NUMBEROFBOOKS;
     }
     
+    public void increaseNumBooks(int index)
+    {
+        bookList[index].increaseNumBooks();
+    }
+
+    public void decreaseNumBooks(int index)
+    {
+        bookList[index].decreaseNumBooks();
+    }
+
     public Book getBook(int index)
     {   
         return bookList[index];
     }
-
+ 
     public void listBooks()
     {
         System.out.print("\nThe available books are:\n");
@@ -36,6 +46,17 @@ public class BookStoreManager
             bookList[i].printBook(i + 1);
         }
         System.out.print("\n");
+    }
+    
+    public boolean checkExactMatch(String bookTitle, String bookAuthor, int index)
+    {
+        boolean match = false;
+        if (bookList[index].getTitle() == bookTitle && bookList[index].getAuthor() == bookAuthor)
+        {
+            match = true;
+        }
+
+        return match;
     }
 
      // Returns an int of the index of the first book in the bookstore which matches the input

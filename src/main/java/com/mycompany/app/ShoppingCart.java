@@ -71,7 +71,6 @@ public class ShoppingCart
                     System.out.printf("%d%s%s%s%n", i+1, ". ", shoppingcart[i].getTitle(), " as a paperback");
                 }
             }
-            System.out.print("\n\n");
         }
         else 
         {
