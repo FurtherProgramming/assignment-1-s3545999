@@ -40,6 +40,11 @@ public class Book {
         numberOfCopies --;
     }
 
+    public void increaseNumBooks()
+    {
+        numberOfCopies ++;
+    }
+
     public void printBook(int index) 
     {
         System.out.printf("%-10d%-50s%-30s%-15d%-15b%n", index, title, author, numberOfCopies, ebookAvailability);

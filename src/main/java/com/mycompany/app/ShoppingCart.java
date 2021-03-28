@@ -9,9 +9,15 @@ public class ShoppingCart
     private final int PAPERBACKCOST = 50;
     private int length = 0;
     private int cost = 0;
+
     public ShoppingCart()
     {
         shoppingcart = new Book[MAXCARTSIZE];
+    }
+
+    public Book getBook(int index)
+    {   
+        return shoppingcart[index];
     }
 
 
@@ -23,17 +29,24 @@ public class ShoppingCart
             shoppingcart[length] = bookForCart;
             cost += EBOOKCOST;
 
-            System.out.printf("'%s' %s%n", bookToAdd.getTitle(), "has been added to your cart as an paperback!");
+            System.out.printf("'%s' %s%n%n", bookToAdd.getTitle(), "has been added to your cart as an eBook!");
+            length ++;
         }
-        else
+        else if (typeToAdd == 2)
         {
+            bookToAdd.decreaseNumBooks();
             Book bookForCart = new Book(bookToAdd.getTitle(), bookToAdd.getAuthor(), 1, false);
             shoppingcart[length] = bookForCart;
             cost += PAPERBACKCOST;
 
-            System.out.printf("'%s' %s%n", bookToAdd.getTitle(), "has been added to your cart as an eBook!");
+            System.out.printf("'%s' %s%n%n", bookToAdd.getTitle(), "has been added to your cart as a paperback!");
+            length ++;
         }
-        length ++;
+        else
+        {
+            System.out.print("The add to cart was cancelled!");
+        }
+        
     }
 
     public int getLength()
@@ -58,7 +71,7 @@ public class ShoppingCart
                     System.out.printf("%d%s%s%s%n", i+1, ". ", shoppingcart[i].getTitle(), " as a paperback");
                 }
             }
-            System.out.print("\n");
+            System.out.print("\n\n");
         }
         else 
         {
@@ -74,16 +87,16 @@ public class ShoppingCart
             {
                 if (shoppingcart[i].getEbookAvailability() == true)
                 {
-                    System.out.print("You have purchased " + shoppingcart[i].getTitle() + " as an Ebook for $" + EBOOKCOST + "\n\n");
+                    System.out.print("You have purchased " + shoppingcart[i].getTitle() + " as an Ebook for $" + EBOOKCOST + "\n");
                 }
                 else
                 {
-                    System.out.print("You have purchased " + shoppingcart[i].getTitle() + " as a paperback for $" + PAPERBACKCOST + "\n\n");
+                    System.out.print("You have purchased " + shoppingcart[i].getTitle() + " as a paperback for $" + PAPERBACKCOST + "\n");
                 }
                 shoppingcart[i] = null;
             }
 
-            System.out.print("The total cost is: " + cost + "\n");
+            System.out.print("\nThe total cost is: $" + cost + "\n\n");
 
             cost = 0;
             length = 0;
@@ -101,11 +114,12 @@ public class ShoppingCart
             cost -= EBOOKCOST;
         }
         else
-        {
+        {   
+            shoppingcart[index].getTitle();
             cost -= PAPERBACKCOST;
         }
         shoppingcart[index] = null;
-        for (int i = index; index < length; index++)
+        for (int i = index; i < length -1; i++)
         {
             shoppingcart[index] = shoppingcart[index + 1];
         }

@@ -27,49 +27,28 @@ public class Menu {
         return menu;
     }
 
-    public int getChoice(Scanner scanner)
-    {
-        int input = -1;
-        boolean inputted = false;
-
-        while (inputted == false)
-        {
-            if (scanner.hasNextInt()) // Ensure next input is an integer
-            {
-                input = scanner.nextInt();
-                scanner.nextLine();
-                inputted = true;
-            }
-            else
-            {
-                System.out.print("\nThat is not a valid integer!\n\n");
-                System.out.print("Please enter a number: ");
-            }
-        }
-        
-        return input;
-    }
-
     public int getIntegerInput(Scanner scanner)
     {
-        int input = -1;
+        String input = "";
+        int intInputted = -1;
         boolean inputted = false;
 
         while (inputted == false)
         {
-            input = 
-            if (scanner.hasNextInt()) // Ensure next input is an integer
+
+            input = scanner.nextLine();
+            try 
             {
-                input = scanner.nextInt();
-                scanner.nextLine();
+                intInputted = Integer.parseInt(input.trim());
+
                 inputted = true;
             }
-            else
+            catch (NumberFormatException n)
             {
                 System.out.print("\nThat is not a valid integer!\n\n");
                 System.out.print("Please enter a number: ");
-            }
+            }         
         }
-        return input;
+        return intInputted;
     }
 }

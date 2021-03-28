@@ -20,11 +20,12 @@ public class BookStore
         int bookChosen;
         int bookType = -1;
         boolean match = false;
+        String bookToRemove;
         
         while(true) 
         {
             System.out.print(menu.getMenu());
-            menuChoice = menu.getChoice(scanner);
+            menuChoice = menu.getIntegerInput(scanner);
 
             if (menuChoice == 1)
             {   
@@ -55,7 +56,6 @@ public class BookStore
                     {
                         bookChoice = selection.getBook(bookChosen -1); // Choice of which book returns book object
 
-                        String title = bookChoice.getTitle();
                         System.out.print("Selected:");
                         bookChoice.printBookHeader();
                         bookChoice.printBook(1);
@@ -68,7 +68,16 @@ public class BookStore
                             buyBookMenu();
                             bookType = menu.getIntegerInput(scanner);
                         }
-                        cart.addToCart(bookChoice, bookType);
+
+                        if ((bookType == 1 && bookChoice.getEbookAvailability() ==true) || (bookType == 2 && bookChoice.getNumOfCopies() > 0))
+                        {
+                            cart.addToCart(bookChoice, bookType);
+                        }
+                        else
+                        {
+                            System.out.print("\nBook is not available it this type!\n\n");
+                        }
+
                     }
                 }
             }
@@ -89,7 +98,7 @@ public class BookStore
                     
                     System.out.print("Please input your choice: ");
                     choice = menu.getIntegerInput(scanner);
-                    while (choice < 0 && choice > cart.getLength() + 1)
+                    while (choice < 0 && choice > cart.getLength())
                     {
                         System.out.print("\nPlease input a valid choice!\n");
                         cart.displayCart();
@@ -104,7 +113,16 @@ public class BookStore
                     }
                     else
                     {
+                        bookToRemove = cart.getBook(choice).getTitle();
+                        for (int i = 0; i < bookStoreManager.getLength(); i++)
+                        {
+                            if (bookStoreManager.checkBookMatch(bookToRemove, i) == true)
+                            {
+                                bookStoreManager.getBook(i).increaseNumBooks();
+                            }
+                        }
                         cart.removeItem(choice - 1);
+
                     }
                 }
                 else
