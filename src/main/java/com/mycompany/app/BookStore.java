@@ -155,15 +155,7 @@ public class BookStore
                 bookStoreManager.listBooks();
             }
             else if (menuChoice == 0)
-            {
-                for (int i = 0; i <cart.getLength(); i++) // return the books into the library, empty the cart before exiting
-                {
-                    if (bookStoreManager.checkExactMatch(cart.getBook(i).getTitle(), cart.getBook(i).getAuthor() ,i) == true)
-                    {
-                        bookStoreManager.increaseNumBooks(i);
-                        cart.removeItem(i);
-                    }
-                }       
+            {     
                 System.out.print("\nGoodbye!\n");
                 scanner.close();
                 System.exit(0);

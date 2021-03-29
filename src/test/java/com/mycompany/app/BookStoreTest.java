@@ -7,15 +7,14 @@ import org.junit.*;
 
 
 /**
- * Unit test for simple App.
- */
+*   Contains tests for all non void methods which do not require the scanner
+**/
 public class BookStoreTest
 {
 
     BookStoreManager bookStoreManager;
-    /**
-     * Rigorous Test :-)
-     */
+    Selections selection;
+    Book book1;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception 
@@ -28,7 +27,8 @@ public class BookStoreTest
     {
         
         bookStoreManager = new BookStoreManager();
-
+        selection = new Selections(1);
+        book1 = new Book("JAVA: How to Program", "Deitel and Deitel", 0, true);
     }
     
     @After
@@ -42,11 +42,35 @@ public class BookStoreTest
     {
         assertTrue(bookStoreManager.checkExactMatch("Absolute Java", "Savitch", 0));
     }
-    
+
     @Test
-    public void bookStoreManagerLength()
+    public void checkExactMatchFalse()
     {
-        assertEquals(bookStoreManager.getLength(), 5);
+        assertFalse(bookStoreManager.checkExactMatch("Absolute Java", "Savit", 0));
     }
     
+    @Test
+    public void checkMatch()
+    {
+        assertTrue(bookStoreManager.checkBookMatch("Abs", 0));
+    }
+
+    @Test
+    public void checkMatchFalse()
+    {
+        assertFalse(bookStoreManager.checkBookMatch("zzzz", 0));
+    }
+
+    @Test
+    public void printSelect()
+    {
+        selection.addToSelections(book1, 0);
+        assertTrue(selection.printSelection());
+    }
+    
+    @Test
+    public void printSelectfail()
+    {
+        assertFalse(selection.printSelection());
+    }
 }

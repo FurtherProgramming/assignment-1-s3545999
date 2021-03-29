@@ -1,6 +1,5 @@
 package com.mycompany.app;
 
-// second git test
 public class ShoppingCart
 {
     private Book[] shoppingcart;
