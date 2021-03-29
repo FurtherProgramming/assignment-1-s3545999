@@ -10,17 +10,19 @@ public class ShoppingCart
     private int length = 0;
     private int cost = 0;
 
+    // Creates the ShoppingCart Object
     public ShoppingCart()
     {
         shoppingcart = new Book[MAXCARTSIZE];
     }
 
+    // Returns a book at the chosen index
     public Book getBook(int index)
     {   
         return shoppingcart[index];
     }
 
-
+    // Adding a book object into the array
     public void addToCart(Book bookToAdd, int typeToAdd)
     {
         if (typeToAdd == 1)
@@ -49,14 +51,15 @@ public class ShoppingCart
         
     }
 
+    // returns the length of the array
     public int getLength()
     {
         return length;
     }
 
+    // Displays the array
     public void displayCart()
     {
-        
         if (length != 0)
         {
             System.out.print("\nYour shopping cart contains:\n");
@@ -78,6 +81,7 @@ public class ShoppingCart
         }
     }
 
+    // Checkingout prints ou
     public void checkout()
     {
         if (length != 0)

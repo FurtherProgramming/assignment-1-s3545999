@@ -12,7 +12,7 @@ import org.junit.*;
 public class BookStoreTest
 {
 
-    BookStore bookstore;
+    BookStoreManager bookStoreManager;
     /**
      * Rigorous Test :-)
      */
@@ -27,7 +27,7 @@ public class BookStoreTest
     public void setup() throws Exception 
     {
         
-        bookstore = new BookStore();
+        bookStoreManager = new BookStoreManager();
 
     }
     
@@ -38,16 +38,15 @@ public class BookStoreTest
     }
 
     @Test
-    public void searchForBook()
+    public void checkExactMatch()
     {
-        assertEquals(bookstore.searchForBook("Java"), 1);
+        assertTrue(bookStoreManager.checkExactMatch("Absolute Java", "Savitch", 0));
     }
     
     @Test
-    public void addEbookTest()
+    public void bookStoreManagerLength()
     {
-        assertTrue(bookstore.addEbookToCart(1)); // book 1 has an eBook available
+        assertEquals(bookStoreManager.getLength(), 5);
     }
-
     
 }

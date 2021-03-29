@@ -2,7 +2,7 @@ package com.mycompany.app;
 
 public class BookStoreManager
 {
-    private final int NUMBEROFBOOKS = 5;
+    private final int NUMBEROFBOOKS = 5; // Used to set up predefined array of books
     
     private Book[] bookList = null;
 
@@ -22,21 +22,25 @@ public class BookStoreManager
         return NUMBEROFBOOKS;
     }
     
+    // Using a book in the array to update available copies
     public void increaseNumBooks(int index)
     {
         bookList[index].increaseNumBooks();
     }
 
+    // Decrease copies in array
     public void decreaseNumBooks(int index)
     {
         bookList[index].decreaseNumBooks();
     }
 
+    // returns the book in the array
     public Book getBook(int index)
     {   
         return bookList[index];
     }
- 
+    
+    // Print out all books in the array
     public void listBooks()
     {
         System.out.print("\nThe available books are:\n");
@@ -48,6 +52,7 @@ public class BookStoreManager
         System.out.print("\n");
     }
     
+    // Check for exact match of both author and title
     public boolean checkExactMatch(String bookTitle, String bookAuthor, int index)
     {
         boolean match = false;
@@ -59,7 +64,8 @@ public class BookStoreManager
         return match;
     }
 
-     // Returns an int of the index of the first book in the bookstore which matches the input
+    // checks if the book at the index starts with bookToCheck
+    // returns boolean of the result
     public boolean checkBookMatch(String bookToCheck, int index)
     {
         bookToCheck = bookToCheck.toLowerCase();
@@ -74,6 +80,4 @@ public class BookStoreManager
     
         return match;
     }
-
-    
 }
