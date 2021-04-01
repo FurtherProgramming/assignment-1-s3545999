@@ -98,14 +98,14 @@ public class ShoppingCart
                 shoppingcart[i] = null;
             }
 
-            System.out.print("\nThe total cost is: $" + cost + "\n\n");
+            System.out.print("\nThe total cost is: $" + cost + "\n");
 
             cost = 0;
             length = 0;
         }
         else
         {
-            System.out.print("Your shopping cart is empty\n\n");
+            System.out.print("\nYour shopping cart is empty\n");
         }
     }
 
